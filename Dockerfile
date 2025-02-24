@@ -1,8 +1,7 @@
 FROM debian:bookworm-slim
 
-# 切换 Debian 镜像源为腾讯云源，更新包列表并安装依赖
-RUN sed -i 's/deb.debian.org/mirrors.tencent.com/g' /etc/apt/sources.list.d/debian.sources \
-    && apt update && apt upgrade -y \
+# 更新包列表并安装依赖
+RUN apt update && apt upgrade -y \
     && apt install -y \
     locales \
     wget iproute2 openssh-server libgd-dev cmake make gcc g++ autoconf \
@@ -34,6 +33,9 @@ RUN curl -sSO https://download.bt.cn/install/install_panel.sh \
     && rm -rf /www/reserve_space.pl \
     && chmod +x /bt.sh \
     && chmod +x /init_mysql.sh
+    
+# 切换 Debian 镜像源为腾讯云源
+RUN sed -i 's/deb.debian.org/mirrors.tencent.com/g' /etc/apt/sources.list.d/debian.sources
     
 
 # 配置宝塔面板安全入口和用户名及密码，以及 SSH 密码
