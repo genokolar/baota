@@ -1,0 +1,22 @@
+name: Build Docker Image
+
+on: [push, pull_request] # 触发事件
+
+jobs:
+  bt-product-release:
+    if: ${{ github.ref == 'refs/heads/main' }}  # 检测main分支是否有更新
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4 # pull代码到运行服务器上
+    - uses: docker/login-action@v3
+      with:
+        # 通过 Docker Hub 的 Account Settings -> Security -> New Access Token 创建，然后通过 GitHub 仓库的 Settings -> Secrets -> New repository secret 分别创建 DOCKERHUB_USERNAME 和 DOCKERHUB_TOKEN
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - name: Build and push
+      id: docker_build
+      uses: docker/build-push-action@v6
+      with:
+        push: true
+        tags: genokolar/baota:latest
+
