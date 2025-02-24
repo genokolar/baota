@@ -22,17 +22,13 @@ COPY ["bt.sh", "init_mysql.sh", "/"]
 # 转换启动脚本
 RUN dos2unix /bt.sh && dos2unix /init_mysql.sh
 
-# 下载并安装宝塔面板及 nginx
+# 下载并安装宝塔面板
 RUN curl -sSO https://download.bt.cn/install/install_panel.sh \
     && echo y | bash install_panel.sh -P 8888 --ssl-disable \
     && btpip config set global.index-url https://mirrors.tencent.com/pypi/simple \
-    && mkdir /lnmp \
-    && curl -o /lnmp/nginx.sh https://download.bt.cn/install/3/nginx.sh \
-    && bash /lnmp/nginx.sh install 1.27 \ 
-    && rm -rf /lnmp \
-    && rm -rf /www/server/nginx/src \
+    && rm -rf /www/server/data/* \
     && echo "docker_bt_nas" > /www/server/panel/data/o.pl \
-    && echo '["memuA", "memuAsite", "memuAwp", "memuAdatabase", "memuAcontrol", "memuAfiles", "memuAlogs", "memuAxterm", "memuAcrontab", "memuAsoft", "memuAconfig", "dologin", "memu_btwaf", "memuAssl"]' > /www/server/panel/config/show_menu.json \
+    && echo '["memuA", "memuAsite", "memuAdatabase", "memuAcontrol", "memuAfiles", "memuAlogs", "memuAxterm", "memuAcrontab", "memuAsoft", "memuAconfig", "dologin", "memu_btwaf", "memuAssl"]' > /www/server/panel/config/show_menu.json \
     && apt clean \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /www/reserve_space.pl \
