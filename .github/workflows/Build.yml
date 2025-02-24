@@ -1,10 +1,10 @@
 name: Build Docker Image
 
-on: [push, pull_request] # 触发事件
+on: [workflow_dispatch, push, pull_request] # 触发事件
 
 jobs:
   bt-product-release:
-    if: ${{ github.ref == 'refs/heads/main' }}  # 检测main分支是否有更新
+    if: ${{ github.ref == 'refs/heads/lnmp' }}  # 检测main分支是否有更新
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4 # pull代码到运行服务器上
@@ -18,5 +18,5 @@ jobs:
       uses: docker/build-push-action@v6
       with:
         push: true
-        tags: genokolar/baota:latest
+        tags: genokolar/baota:lnmp
 
