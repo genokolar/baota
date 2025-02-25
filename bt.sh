@@ -8,24 +8,6 @@ Setup_Path=$Root_Path/server/mysql
 Data_Path=$Root_Path/server/data
 O_pl=$(cat /www/server/panel/data/o.pl)
 
-backup_database() {
-  if [ -d "${Data_Path}" ] && [ ! -z "$(ls -A ${Data_Path})" ]; then
-    if [ ! -d "${Setup_Path}" ] || [ -z "$(ls -A ${Setup_Path})" ]; then
-      timestamp=$(date +"%s")
-      tar czf /www/server/data_backup_$timestamp.tar.gz -C ${Data_Path} .
-    fi
-  fi
-}
-
-restore_panel_data() {
-  if [ -f /www.tar.gz ]; then
-    if [ ! -d /www ] || [ -z "$(ls -A /www)" ] || [ ! -d /www/server/panel ] || [ -z "$(ls -A /www/server/panel)" ] || [ ! -d /www/server/panel/pyenv ] || [ -z "$(ls -A /www/server/panel/pyenv)" ]; then
-      tar xzf /www.tar.gz -C / --skip-old-files
-      rm -rf /www.tar.gz
-    fi
-  fi
-}
-
 soft_start(){
     # 扫描并启动所有服务
     init_scripts=$(ls ${init_path})
@@ -56,7 +38,7 @@ soft_start(){
 }
 
 init_mysql(){
-    if [ "${O_pl}" != "docker_btlamp_nas" ] && [ "${O_pl}" != "docker_btlnmp_nas" ];then
+    if [ "${O_pl}" != "docker_btlamp_d12" ] && [ "${O_pl}" != "docker_btlnmp_d12" ];then
         return
     fi
     if [ -d "${Data_Path}" ]; then
@@ -69,7 +51,7 @@ init_mysql(){
         fi
     fi
     if [ -f /init_mysql.sh ] && [ -d "${Setup_Path}" ];then
-        bash /init_mysql.sh
+        sh /init_mysql.sh
         rm -f /init_mysql.sh
     fi
 }
@@ -86,9 +68,6 @@ start_mysql(){
     fi
 }
 
-
-restore_panel_data > /dev/null
-backup_database > /dev/null
 is_empty_Data > /dev/null
 init_mysql > /dev/null
 start_mysql > /dev/null
