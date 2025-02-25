@@ -55,6 +55,11 @@ RUN echo btpanel | bt 6 \
     && echo "/btpanel" > /www/server/panel/data/admin_path.pl \
     && echo "root:btpaneldocker" | chpasswd
 
+# 打包宝塔面板，并清除www
+RUN bt 2 \
+    && tar -zcf /www.tar.gz /www \
+    && rm -rf /www
+
 ENTRYPOINT ["/bin/sh","-c","/bt.sh"]
 
 # 暴漏特定端口
