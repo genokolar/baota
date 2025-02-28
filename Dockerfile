@@ -25,7 +25,7 @@ RUN curl -sSO https://download.bt.cn/install/install_panel.sh \
     && curl -o /lnmp/php.sh https://download.bt.cn/install/4/php.sh \
     && sh /lnmp/php.sh install 8.3 \
     && curl -o /lnmp/mysql.sh https://download.bt.cn/install/4/mysql.sh \
-    && sh /lnmp/mysql.sh install 8.0 \
+    && sh /lnmp/mysql.sh install 5.7 \
     && sh /lnmp/phpmyadmin.sh install 5.2 \
     && rm -rf /lnmp \
     && rm -rf /www/server/php/83/src \
