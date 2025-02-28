@@ -33,6 +33,9 @@ RUN curl -sSO https://download.bt.cn/install/install_panel.sh \
 # 切换 Debian 镜像源为腾讯云源
 RUN sed -i 's/deb.debian.org/mirrors.tencent.com/g' /etc/apt/sources.list.d/debian.sources
 RUN btpip config set global.index-url https://mirrors.tencent.com/pypi/simple
+
+# 处理nginx配置文件中默认80端口与NAS冲突大问题
+RUN sed -i 's/listen 80;/listen 10080;/' /www/server/panel/vhost/nginx/phpfpm_status.conf
     
 
 # 配置宝塔面板安全入口和用户名及密码，以及 SSH 密码
