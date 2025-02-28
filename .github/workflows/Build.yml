@@ -1,6 +1,6 @@
 name: Build Docker Image
 
-on: [push, pull_request] # 触发事件
+on: [workflow_dispatch, push, pull_request] # 触发事件
 
 jobs:
   bt-product-release:
