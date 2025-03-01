@@ -6,7 +6,7 @@ init_path=/etc/init.d
 Root_Path=`cat /var/bt_setupPath.conf`
 Setup_Path=$Root_Path/server/mysql
 Data_Path=$Root_Path/server/data
-O_pl=$(cat /www/server/panel/data/o.pl)
+O_pl=$(cat /o.pl)
 
 backup_database() {
   if [ -d "${Data_Path}" ] && [ ! -z "$(ls -A ${Data_Path})" ]; then
